@@ -4,24 +4,23 @@
 (enable-console-print!)
 
 (def initial-state {:skills [{:text "Soccer"}
-                                   {:text "Programming"}
-                                   {:text "Something Else"}
-                                   ]})
+                             {:text "Programming"}
+                             {:text "Something Else"}
+                             ]})
 
 (def app-state (atom initial-state))
 
 (defn skill-view [skill]
-  [:h2 (:text skill)])
+  [:div
+    [:h2 (:text skill)]
+    [:button#edit "edit"]
+    [:button#delete "delete"]]
+  )
 
 (defn skill-list []
   [:ul
    (for [item (get @app-state :skills)]
-         ^{:key item } [:li (:text item)])])
-
-
-(println (first (get @app-state :skills)))
-
-(println "hellooo")
+         ^{:key item } [:li [skill-view item]])])
 
 (defn my-app []
   [:div [:h1 "Creact - But with ClojureScript and Reagent"]
@@ -29,9 +28,9 @@
         [skill-list]])
 
 
+
 (defn mountit []
     (r/render-component [my-app] (js/document.getElementById "app"))) 
-
 (mountit)
 
 (defn on-js-reload []
