@@ -15,8 +15,13 @@
 (defn skill-view [skill]
   [:div
     [:h2 (:text skill)]
-    [:button#edit "edit"]
-    [:button#delete "delete"]]
+    [:input {:type "button"
+             :value "edit"
+             :on-click #(println "edit!")}]
+    [:input {:type "button"
+             :value "delete"
+             :on-click #(println "delete!")}]
+    ]
   )
 
 (defn skill-list []
@@ -28,7 +33,6 @@
 
 (defn save-skill []
   (swap! app-state update-in [:skills] conj (new-skill)))
-
 
 
 (defn my-app []
