@@ -8,7 +8,9 @@
                              {:text "Something Else"}
                              ]})
 
-(def app-state (r/atom initial-state))
+(defonce app-state (r/atom initial-state))
+
+(defonce value (r/atom ""))
 
 (defn skill-view [skill]
   [:div
@@ -22,9 +24,13 @@
    (for [item (get @app-state :skills)]
          ^{:key item } [:li [skill-view item]])])
 
-(defn save-skill [])
+(defn new-skill [] {:text (str @value)})
 
-(defonce value (r/atom ""))
+(defn save-skill []
+  (swap! app-state assoc-in [:skills] (new-skill)))
+
+(println (get @app-state :skills))
+
 
 (defn my-app []
   [:div [:h1 "Creact - But with ClojureScript and Reagent"]
@@ -34,7 +40,7 @@
                  :on-change #(reset! value (-> % .-target .-value))}]
         [:input {:type "button" 
                  :value "New Skill"
-                 :on-click #(println "clicked!")}]
+                 :on-click #(println (new-skill))}]
         [skill-list]])
 
 
