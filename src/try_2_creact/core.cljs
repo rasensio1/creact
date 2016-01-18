@@ -26,7 +26,9 @@
   [:div [:h1 "Creact - But with ClojureScript and Reagent"]
         [:h1 "Skills"]
         [:input {:type "text"}]
-        [:button#new "Add new skill"]
+        [:input {:type "button" 
+                 :value "New Skill"
+                 :on-click #(println "clicked!")}]
         [skill-list]])
 
 
