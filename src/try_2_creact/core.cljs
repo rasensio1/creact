@@ -27,9 +27,8 @@
 (defn new-skill [] {:text (str @value)})
 
 (defn save-skill []
-  (swap! app-state assoc-in [:skills] (new-skill)))
+  (swap! app-state update-in [:skills] conj (new-skill)))
 
-(println (get @app-state :skills))
 
 
 (defn my-app []
@@ -40,7 +39,7 @@
                  :on-change #(reset! value (-> % .-target .-value))}]
         [:input {:type "button" 
                  :value "New Skill"
-                 :on-click #(println (new-skill))}]
+                 :on-click save-skill }]
         [skill-list]])
 
 
