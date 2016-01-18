@@ -25,6 +25,8 @@
 (defn my-app []
   [:div [:h1 "Creact - But with ClojureScript and Reagent"]
         [:h1 "Skills"]
+        [:input {:type "text"}]
+        [:button#new "Add new skill"]
         [skill-list]])
 
 
