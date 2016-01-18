@@ -3,14 +3,23 @@
 
 (enable-console-print!)
 
-(def initial-state {:skills [{:text "Soccer"}
-                             {:text "Programming"}
-                             {:text "Something Else"}
-                             ]})
+(def initial-state {:skills []})
 
 (defonce app-state (r/atom initial-state))
-
 (defonce value (r/atom ""))
+(defonce counter (atom 0))
+
+(defn new-skill [] {:id (swap! counter inc)
+                    :text (str @value)})
+
+(defn save-skill []
+  (swap! app-state update-in [:skills] conj (new-skill)))
+
+(defn new-list [id]
+  (remove #(= id (:id % )) (get @app-state :skills)))
+
+(defn delete-skill [id]
+  (swap! app-state assoc :skills (new-list id)))
 
 (defn skill-view [skill]
   [:div
@@ -20,20 +29,13 @@
              :on-click #(println "edit!")}]
     [:input {:type "button"
              :value "delete"
-             :on-click #(println "delete!")}]
-    ]
-  )
+             :on-click #(delete-skill (:id skill))}]
+    ])
 
 (defn skill-list []
   [:ul
    (for [item (get @app-state :skills)]
          ^{:key item } [:li [skill-view item]])])
-
-(defn new-skill [] {:text (str @value)})
-
-(defn save-skill []
-  (swap! app-state update-in [:skills] conj (new-skill)))
-
 
 (defn my-app []
   [:div [:h1 "Creact - But with ClojureScript and Reagent"]
